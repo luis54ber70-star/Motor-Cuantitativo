@@ -3,9 +3,11 @@ import math
 import requests
 from datetime import datetime
 
-# Conexión a tus variables secretas de GitHub
+# 1. Conexión a tus variables secretas de GitHub
 odds_api_key = os.getenv("ODDS_API_KEY")
 sports_api_key = os.getenv("ALL_SPORTS_API_KEY")
+
+# --- FÓRMULAS CUANTITATIVAS ---
 
 def distribucion_poisson(esperado, real):
     return (math.exp(-esperado) * (esperado ** real)) / math.factorial(real)
@@ -26,6 +28,8 @@ def calcular_kelly(momio_decimal, prob_real, fraccion_kelly=0.25):
         return 0.0 
     return round(((b * p - q) / b) * fraccion_kelly, 4)
 
+# --- MOTOR DE EJECUCIÓN ---
+
 def ejecutar_motor():
     fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"--- EJECUCIÓN 100% AUTÓNOMA: {fecha} ---\n"
@@ -34,23 +38,24 @@ def ejecutar_motor():
         log_entry += "Error: Faltan claves de API en los Secrets.\n\n"
     else:
         try:
-            # 1. Extracción de momios
+            # 2. Extracción de momios (Con los índices  corregidos)
             url_odds = f"https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/?apiKey={odds_api_key}&regions=us&markets=h2h"
             respuesta = requests.get(url_odds).json()
             
-            # Agregamos  para navegar correctamente por las listas del JSON
-            juego = respuesta 
-            equipo = juego['bookmakers']['markets']['outcomes']['name']
-            momio = juego['bookmakers']['markets']['outcomes']['price']
+            juego = respuesta # Toma el primer partido
+            bookmaker = juego['bookmakers'] # Toma la primera casa de apuestas
+            mercado = bookmaker['markets'] # Toma el primer mercado (h2h)
+            resultado = mercado['outcomes'] # Toma el primer equipo
             
-            # 2. Extracción de estadísticas reales (All Sports API)
-            # Nota: Reemplazar 'URL_ALL_SPORTS' con el endpoint exacto de tu deporte
-            url_stats = f"URL_ALL_SPORTS?APIkey={sports_api_key}&team={equipo}"
-            # Simulamos la extracción de los promedios reales (xG) de la respuesta JSON
-            xg_favor = 4.5 # Aquí iría: stats_json['goles_anotados_promedio']
-            xg_contra = 3.2 # Aquí iría: stats_json['goles_recibidos_promedio']
+            equipo = resultado['name']
+            momio = resultado['price']
             
-            # 3. Modelado Predictivo
+            # 3. Extracción de estadísticas reales (All Sports API)
+            # Simulamos la ingesta de datos hasta que configures el endpoint exacto
+            xg_favor = 4.5 
+            xg_contra = 3.2 
+            
+            # 4. Modelado Predictivo
             prob_real = calcular_probabilidad_victoria(xg_favor, xg_contra)
             apuesta = calcular_kelly(momio, prob_real)
             
@@ -65,11 +70,11 @@ def ejecutar_motor():
         except Exception as e:
             log_entry += f"Fallo en la ejecución: {e}\n"
 
-    # 4. Guardar en memoria
+    # 5. Guardar en memoria
     os.makedirs("data", exist_ok=True)
     with open("data/database_log.txt", "a", encoding="utf-8") as file:
         file.write(log_entry + "\n")
-    print("Análisis guardado exitosamente.")
+    print("Análisis guardado exitosamente en data/database_log.txt")
 
 if __name__ == "__main__":
     ejecutar_motor()
