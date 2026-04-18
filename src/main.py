@@ -36,7 +36,10 @@ def ejecutar_motor():
         try:
             # 1. Extracción de momios
             url_odds = f"https://api.the-odds-api.com/v4/sports/baseball_mlb/odds/?apiKey={odds_api_key}&regions=us&markets=h2h"
-            juego = requests.get(url_odds).json()
+            respuesta = requests.get(url_odds).json()
+            
+            # Agregamos  para navegar correctamente por las listas del JSON
+            juego = respuesta 
             equipo = juego['bookmakers']['markets']['outcomes']['name']
             momio = juego['bookmakers']['markets']['outcomes']['price']
             
