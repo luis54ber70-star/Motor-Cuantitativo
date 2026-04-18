@@ -12,3 +12,6 @@ Regla de Oro Vigente: Ejecución estricta de gestión de riesgo (Cuarto de Kelly
 Error: Faltan claves de API en los Secrets.
 
 
+--- EJECUCIÓN 100% AUTÓNOMA: 2026-04-18 11:40:10 ---
+Fallo en la ejecución: list indices must be integers or slices, not str
+
