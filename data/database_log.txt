@@ -1,1 +1,10 @@
 
+
+--- EJECUCIÓN: 2026-04-18 11:24:35 ---
+Resultado Kelly: Sugerencia de apuesta del 1.39% del bankroll.
+
+ESTADO_DEL_MODELO_ACTUAL (DATABASE LOG)
+Último Error Auditado: Ninguno. Ejecución base exitosa.
+Umbrales de Búsqueda Activos: Probabilidad real > 50%, +EV.
+Regla de Oro Vigente: Ejecución estricta de gestión de riesgo (Cuarto de Kelly).
+
