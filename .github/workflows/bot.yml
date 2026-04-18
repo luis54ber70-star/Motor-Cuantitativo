@@ -1,0 +1,36 @@
+name: Motor Cuantitativo Diario
+
+on:
+  schedule:
+    - cron: '0 14 * * *' # Se ejecuta automáticamente todos los días a las 14:00 UTC
+  workflow_dispatch: # Te permite ejecutarlo manualmente desde el navegador con un botón
+
+jobs:
+  ejecutar-analisis:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar entorno Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Instalar librerías
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar motor matemático (Criterio de Kelly)
+        env:
+          # Aquí llamaremos de forma segura a tu clave de The Odds API
+          API_KEY: ${{ secrets.ODDS_API_KEY }} 
+        run: python src/main.py
+
+      - name: Actualizar Bloque de Estado (Memoria del Bot)
+        run: |
+          git config --global user.name "Bot Cuantitativo"
+          git config --global user.email "bot@github.local"
+          git add data/database_log.txt
+          git commit -m "Log diario: Actualización de auditoría y umbrales" || echo "Sin cambios nuevos"
+          git push
