@@ -8,3 +8,7 @@ ESTADO_DEL_MODELO_ACTUAL (DATABASE LOG)
 Umbrales de Búsqueda Activos: Probabilidad real > 50%, +EV.
 Regla de Oro Vigente: Ejecución estricta de gestión de riesgo (Cuarto de Kelly).
 
+--- EJECUCIÓN 100% AUTÓNOMA: 2026-04-18 11:36:32 ---
+Error: Faltan claves de API en los Secrets.
+
+
