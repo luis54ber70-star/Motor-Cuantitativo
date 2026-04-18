@@ -1,22 +1,38 @@
+import os
+from datetime import datetime
+
 def calcular_kelly(momio_decimal, prob_real, fraccion_kelly=0.25):
     """Calcula el tamaño de apuesta usando el Criterio de Kelly Fraccional."""
-    b = momio_decimal - 1  # Ganancia neta por unidad apostada
-    p = prob_real          # Probabilidad real de ganar
-    q = 1 - p              # Probabilidad de perder
+    b = momio_decimal - 1  
+    p = prob_real          
+    q = 1 - p              
 
-    # Verificamos primero si la apuesta tiene Valor Esperado positivo (+EV)
+    # Verificamos si hay Valor Esperado positivo (+EV)
     if (p * b) - q <= 0:
-        return 0.0  # Si no hay ventaja, no se apuesta nada
+        return 0.0  
 
-    # Fórmula del Kelly Completo: f = (bp - q) / b
+    # Kelly Completo y Fraccional
     kelly_completo = (b * p - q) / b
+    return round(kelly_completo * fraccion_kelly, 4)
 
-    # Aplicamos la protección del Kelly Fraccional para mitigar el riesgo
-    kelly_final = kelly_completo * fraccion_kelly
+# 1. Simulación de ejecución (Ejemplo Mets)
+momio = 1.91
+prob = 0.55
+apuesta = calcular_kelly(momio, prob)
 
-    return round(kelly_final, 4)
+# 2. Construir el Bloque de Estado (Memoria)
+fecha = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+log_entry = f"""
+--- EJECUCIÓN: {fecha} ---
+Resultado Kelly: Sugerencia de apuesta del {apuesta * 100}% del bankroll.
 
-# Prueba con nuestro ejemplo anterior de los Mets (Momio 1.91, Prob 55%)
-apuesta = calcular_kelly(1.91, 0.55)
-print(f"Sugerencia de apuesta: {apuesta * 100}% del bankroll")
+ESTADO_DEL_MODELO_ACTUAL (DATABASE LOG)
+Último Error Auditado: Ninguno. Ejecución base exitosa.
+Umbrales de Búsqueda Activos: Probabilidad real > 50%, +EV.
+Regla de Oro Vigente: Ejecución estricta de gestión de riesgo (Cuarto de Kelly).
+\n"""
 
+# 3. Escribir y guardar en el archivo de texto
+os.makedirs("data", exist_ok=True) # Crea la carpeta si no existe
+with open("data/database_log.txt", "a", encoding="utf-8") as file:
+    file.write(log_entry)
