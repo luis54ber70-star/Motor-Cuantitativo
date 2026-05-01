@@ -63,3 +63,6 @@ Fallo en la ejecución: 'bookmakers'
 --- EJECUCIÓN 100% AUTÓNOMA: 2026-04-30 15:48:49 ---
 Fallo en la ejecución: 'bookmakers'
 
+--- EJECUCIÓN 100% AUTÓNOMA: 2026-05-01 15:01:43 ---
+Fallo en la ejecución: list indices must be integers or slices, not str
+
