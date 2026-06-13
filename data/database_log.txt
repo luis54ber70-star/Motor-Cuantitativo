@@ -192,3 +192,6 @@ Fallo en la ejecución: list indices must be integers or slices, not str
 --- EJECUCIÓN 100% AUTÓNOMA: 2026-06-12 16:47:09 ---
 Fallo en la ejecución: list indices must be integers or slices, not str
 
+--- EJECUCIÓN 100% AUTÓNOMA: 2026-06-13 15:43:43 ---
+Fallo en la ejecución: list indices must be integers or slices, not str
+
