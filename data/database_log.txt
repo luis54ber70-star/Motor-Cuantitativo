@@ -411,3 +411,6 @@ Fallo en la ejecución: 'bookmakers'
 --- EJECUCIÓN 100% AUTÓNOMA: 2026-08-25 14:51:14 ---
 Fallo en la ejecución: 'bookmakers'
 
+--- EJECUCIÓN 100% AUTÓNOMA: 2026-08-26 14:49:18 ---
+Fallo en la ejecución: 'bookmakers'
+
